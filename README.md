@@ -1,104 +1,114 @@
-Sure! Here's a structured guide to help you get started with the documentation:
+# Geo API - Spring Boot & Firebase
+
+## Overview
+Geo API is a RESTful service built with Spring Boot and Firebase Firestore. The API allows users to determine whether a specific latitude and longitude coordinate lies within a given country's boundaries. This is useful for location-based applications that require geolocation validation.
+
+## Features
+- Check if a geographical point is inside a country's borders
+- Android library integration for easy mobile application development
+- Example Android app demonstrating usage
+- Firebase Firestore as a scalable database backend
+- RESTful API with structured JSON responses
+
+## Technologies Used
+- **Spring Boot** - Backend framework
+- **Firebase Firestore** - Database
+- **Java** - Programming language
+- **Gradle** - Build tool
+- **Android SDK** - Mobile integration
+
+The API service runs on `http://localhost:8080`.
 
 ---
 
-# API Service Documentation
+## API Endpoints
 
-This document provides an overview of the API service, Android library, and the Android Example application. It includes setup instructions, usage examples, and additional information useful for developers.
+### 1. Check if a Point is Inside a Country
+**POST /api/check-country**
 
----
+#### Request:
+```json
+{
+  "latitude": 46.505,
+  "longitude": 38.770
+}
+```
 
-## Table of Contents
+#### Response:
+```json
+{
+  "result": "The point is inside Armenia."
+}
+```
 
-1. [Introduction](#introduction)
-2. [API Service Setup](#api-service-setup)
-3. [Android Library Setup](#android-library-setup)
-4. [Android Example Application Setup](#android-example-application-setup)
-5. [Usage Examples](#usage-examples)
-6. [Error Handling](#error-handling)
-7. [GitHub Pages and Repository Access](#github-pages-and-repository-access)
-8. [Additional Information](#additional-information)
+#### Error Responses:
+- **400 - Bad Request**: Missing or incorrect latitude/longitude values.
+- **404 - Country Not Found**: No matching country found in the database.
+- **500 - Server Error**: Internal processing error.
 
----
-
-## Introduction
-
-The API service enables users to check if a point (latitude, longitude) lies within the geographical boundaries of a given country. This is useful for applications that require geolocation-based features, such as determining the user's location relative to country borders.
-
-Additionally, an Android library is provided to integrate the API service into Android applications, along with an Android example application for easy reference.
+Example error response:
+```json
+{
+  "error": "The point is not in any known country."
+}
+```
 
 ---
 
 ## API Service Setup
 
 ### Prerequisites
-1. Java 11 or later
-2. Gradle 6.x or later
-3. Firebase SDK for Firestore
+- Java 11 or later
+- Gradle 6.x or later
+- Firebase SDK for Firestore
 
-### Steps
-
+### Setup Steps
 1. Clone the repository:
-
    ```bash
    git clone https://github.com/your-repository/geo-api.git
    ```
-
-2. Navigate to the API project directory:
-
+2. Navigate to the project directory:
    ```bash
    cd geo-api
    ```
-
-3. Build the project using Gradle:
-
+3. Build the project:
    ```bash
    ./gradlew build
    ```
-
 4. Start the API service:
-
    ```bash
    ./gradlew bootRun
    ```
-
-5. The service will now be available at `http://localhost:8080`.
+5. The service will be available at `http://localhost:8080`.
 
 ---
 
 ## Android Library Setup
 
 ### Prerequisites
-1. Android Studio 4.x or later
-2. Android SDK
-3. Firebase SDK for Android
+- Android Studio 4.x or later
+- Android SDK
+- Firebase SDK for Android
 
-### Steps
-
-1. Add the library to your `build.gradle` file:
-
+### Integration Steps
+1. Add the library dependency in `build.gradle`:
    ```groovy
    dependencies {
        implementation 'com.example:geo-api-library:1.0.0'
    }
    ```
-
 2. Initialize the library in your `Application` class:
-
    ```java
    GeoApiService geoApiService = new GeoApiService();
    geoApiService.initialize();
    ```
-
-3. Call the API to check if the point is within a country:
-
+3. Use the library to check if a point is inside a country:
    ```java
    geoApiService.checkCountry(latitude, longitude, new GeoApiService.Callback() {
        @Override
        public void onResult(String result) {
            // Handle the result
        }
-
        @Override
        public void onError(String error) {
            // Handle the error
@@ -111,102 +121,44 @@ Additionally, an Android library is provided to integrate the API service into A
 ## Android Example Application Setup
 
 ### Steps
-
 1. Clone the example app repository:
-
    ```bash
    git clone https://github.com/your-repository/geo-api-example.git
    ```
-
 2. Open the project in Android Studio.
-
-3. Set up Firebase with the necessary Firestore configurations.
-
-4. Build and run the app on your emulator or device.
-
-5. The app will allow you to test the `checkCountry` functionality.
+3. Configure Firebase Firestore.
+4. Build and run the application.
+5. Test the `checkCountry` functionality.
 
 ---
 
-## Usage Examples
-
-### Check if a Point is Inside a Country
-
-To use the API, send a POST request with the latitude and longitude:
-
-```bash
-POST http://localhost:8080/api/check-country
-Content-Type: application/json
-
-{
-  "latitude": 46.505,
-  "longitude": 38.770
-}
-```
-
-Response:
-
-```json
-{
-  "result": "The point is inside Armenia."
-}
-```
-
----
-
-## Error Handling
-
-- **400 - Bad Request**: The request body is missing required fields (latitude, longitude, country).
-- **404 - Country Not Found**: The specified country was not found in the Firestore database.
-- **500 - Server Error**: Internal server error, try again later.
-
-### Example Response (Error)
-
-```json
-{
-  "error": "The point is not in any known country."
-}
-```
-
----
-
-## GitHub Pages and Repository Access
-
-To access the full documentation, please visit the [GitHub Pages link](https://your-github-page-link).
+## GitHub Repository & Documentation
+For full documentation, visit the [GitHub Pages link](https://your-github-page-link).
 
 ### Repository Structure
-
-- `/src`: Source code for the API and Android library.
-- `/docs`: Documentation for setup, usage, and API reference.
-- `/example`: Example Android app using the library.
+- `/src` - Source code for the API and Android library
+- `/docs` - Documentation and setup guides
+- `/example` - Sample Android application
 
 ---
 
 ## Additional Information
 
-### Screenshots and Diagrams
-
-For detailed images and architecture diagrams, please refer to the `/docs/images` directory.
-
-- **API Diagram**: Illustrates the interaction between the API service and the Android application.
-- **Geo Location Flow**: A flowchart detailing how geographical checks are performed.
+### Screenshots & Diagrams
+- **API Diagram** - Illustrates API interaction with the database and client applications.
+- **Geo Location Flow** - Describes the process of checking a point within country boundaries.
 
 ### FAQs
+**How do I add new countries?**
+- Upload new geoJSON files into Firestore.
 
-- **How do I add new countries?**
-  - You can add countries by uploading geoJSON files into the Firestore database.
-
-- **Can I use this service for large datasets?**
-  - Yes, but consider implementing pagination for handling large numbers of countries.
+**Can I handle large datasets?**
+- Yes, implement pagination for better performance.
 
 ---
 
 ## Conclusion
+Geo API provides an easy-to-use solution for geolocation validation. With API access, an Android library, and an example app, developers can quickly integrate geolocation checks into their applications. If you have questions, feel free to reach out!
 
-This documentation provides everything you need to set up and use the geo location API service, along with the Android library and example app. Feel free to reach out if you have any questions or need further assistance.
+For more details, check the [GitHub Pages documentation](https://your-github-page-link).
 
----
-
-The documentation should be saved in the `docs` folder of your project, and you can generate a GitHub Pages link by following the instructions in the [GitHub Pages Documentation](https://docs.github.com/en/pages/getting-started-with-github-pages).
-
-Let me know if you'd like to adjust or expand any specific section!
